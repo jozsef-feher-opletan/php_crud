@@ -1,0 +1,30 @@
+# Composer dependencies
+/vendor/
+
+# Environment configuration
+.env
+.env.*
+
+# IDE settings
+/.idea/
+/.vscode/
+/*.sublime-project
+/*.sublime-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs and caches
+*.log
+*.cache
+*.tmp
+
+# PHPUnit
+.phpunit.result.cache
+
+# Coverage reports
+/coverage/
+
+# Node-related (if used later)
+/node_modules/

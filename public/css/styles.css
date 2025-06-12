@@ -1,0 +1,23 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
+}
+.button-link {
+  display: inline-block;
+  padding: 8px 12px;
+  margin-right: 8px;
+  background-color:rgb(0, 12, 185);
+  color: #fff !important;
+  text-decoration: none;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+.button-link:hover {
+  background-color:rgb(6, 16, 100);
+}
+.input-wide {
+  width: 300px;
+}
