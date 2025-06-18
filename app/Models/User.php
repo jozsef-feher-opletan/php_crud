@@ -22,13 +22,13 @@ class User {
     }
 
     public function create($data) {
-        $stmt = $this->pdo->prepare("INSERT INTO users (name, email) VALUES (?, ?)");
-        return $stmt->execute([$data['name'], $data['email']]);
+        $stmt = $this->pdo->prepare("INSERT INTO users (username, email) VALUES (?, ?)");
+        return $stmt->execute([$data['username'], $data['email']]);
     }
 
     public function update($id, $data) {
-        $stmt = $this->pdo->prepare("UPDATE users SET name = ?, email = ? WHERE id = ?");
-        return $stmt->execute([$data['name'], $data['email'], $id]);
+        $stmt = $this->pdo->prepare("UPDATE users SET username = ?, email = ? WHERE id = ?");
+        return $stmt->execute([$data['username'], $data['email'], $id]);
     }
 
     public function delete($id) {

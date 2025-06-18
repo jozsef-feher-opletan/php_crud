@@ -11,7 +11,25 @@ class Comment {
     }
 
     public function all() {
-        $stmt = $this->pdo->query("SELECT * FROM comments");
+        $stmt = $this->pdo->query("
+            SELECT 
+                comments.id AS id,
+                comments.post_id AS post_id,
+                comments.user_id AS user_id,
+                comments.content AS content,
+                users.id AS users_id,
+                users.username AS username,
+                users.email AS email,
+                posts.id AS posts_id,
+                posts.title AS title,
+                posts.content AS post_content
+            FROM 
+                comments
+            INNER JOIN 
+                users ON comments.user_id = users.id
+            INNER JOIN 
+                posts ON comments.post_id = posts.id
+        ");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -22,13 +40,13 @@ class Comment {
     }
 
     public function create($data) {
-        $stmt = $this->pdo->prepare("INSERT INTO comments (username, title, content) VALUES (?, ?, ?)");
-        return $stmt->execute([$data['username'], $data['title'], $data['content']]);
+        $stmt = $this->pdo->prepare("INSERT INTO comments (post_id, user_id, content) VALUES (?, ?, ?)");
+        return $stmt->execute([$data['post_id'], $data['user_id'], $data['content']]);
     }
 
     public function update($id, $data) {
-        $stmt = $this->pdo->prepare("UPDATE comments SET username = ?, title = ?, content = ? WHERE id = ?");
-        return $stmt->execute([$data['username'], $data['title'], $data['content'], $id]);
+        $stmt = $this->pdo->prepare("UPDATE comments SET post_id = ?, user_id = ?, content = ? WHERE id = ?");
+        return $stmt->execute([$data['post_id'], $data['title'], $data['content'], $id]);
     }
 
     public function delete($id) {
