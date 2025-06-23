@@ -60,4 +60,9 @@ class Post {
         $stmt = $this->pdo->prepare("DELETE FROM posts WHERE id = ?");
         return $stmt->execute([$id]);
     }
+
+    public function select_users() {
+        $stmt = $this->pdo->query("SELECT * FROM users");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

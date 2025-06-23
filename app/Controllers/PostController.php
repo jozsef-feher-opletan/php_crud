@@ -16,6 +16,7 @@ class PostController {
     }
 
     public function create() {
+        $users = $this->post->select_users();
         require '../app/Views/post/create.php';
     }
 
@@ -26,6 +27,7 @@ class PostController {
 
     public function edit($id) {
         $post = $this->post->find($id);
+        $users = $this->post->select_users();
         require '../app/Views/post/edit.php';
     }
 

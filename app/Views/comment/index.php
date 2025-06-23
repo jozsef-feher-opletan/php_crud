@@ -1,9 +1,7 @@
-<h1>Comment List</h1>
-<link rel="stylesheet" href="../../public/css/styles.css">
-<a href="<?= base_url('comments/create') ?>">Add New Comment</a>
+<h2>Comment List</h2>
 <div class="table">
     <div class="row header">
-        <div class="cell">Userame</div>
+        <div class="cell">Username</div>
         <div class="cell">Post Title</div>
         <div class="cell">Comment</div>
         <div class="cell">Actions</div>
@@ -16,7 +14,9 @@
         <div class="cell actions">
             <a href="<?= base_url("comments/{$comment['id']}/edit") ?>" class="button-link">Edit</a>
             <form action="<?= base_url("comments/{$comment['id']}/delete") ?>" method="POST" style="display:inline;">
-                <button type="submit" class="button-link">Delete</button>
+                <button type="submit" class="button-link" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</button>
+                <input type="hidden" name="post_id" value="<?= htmlspecialchars($comment['post_id']) ?>">
+                <input type="hidden" name="user_id" value="<?= htmlspecialchars($comment['user_id']) ?>">
             </form>
         </div>
     </div>
