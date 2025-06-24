@@ -16,6 +16,7 @@
                 <a href="<?= base_url("users/{$user['id']}/edit") ?>" class="button-link">Edit</a>
                 
                 <form action="<?= base_url("users/{$user['id']}/delete") ?>" method="POST" style="display:inline;">
+                    <?= CSRF::getTokenInputField() ?>
                     <button type="submit" class="button-link" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
                 </form>
             </div>

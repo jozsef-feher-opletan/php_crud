@@ -16,6 +16,7 @@
             <input type="email" name="email" required>
         </div>
         <div class="cell actions">
+            <?= CSRF::getTokenInputField() ?>
             <button type="submit" class="button-link">Create</button>
         </div>
     </div>

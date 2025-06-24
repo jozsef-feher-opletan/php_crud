@@ -1,4 +1,6 @@
 <h2>Create Post</h2>
+<p><a href="<?= base_url('users') ?>" class="button-link">Back to Post List</a></p>
+
 <form method="POST" action="<?= base_url('posts') ?>">
 <div class="table">
     <div class="row header">
@@ -25,6 +27,7 @@
             <textarea id="content" name="content" rows="10" cols="40" required></textarea>
         </div>
         <div class="cell actions">
+            <?= CSRF::getTokenInputField() ?>
             <button type="submit" class="button-link">Create</button>
         </div>
     </div>

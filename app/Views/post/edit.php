@@ -28,6 +28,7 @@
             <textarea id="content" name="content" rows="10" cols="40" required><?= htmlspecialchars($post['content']) ?></textarea>
         </div>
         <div class="cell actions">
+            <?= CSRF::getTokenInputField() ?>
             <button type="submit" class="button-link">Update</button>
         </div>
     </div>

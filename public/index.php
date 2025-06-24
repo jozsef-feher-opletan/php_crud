@@ -1,7 +1,10 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../app/helpers.php';
+require_once __DIR__ . '/../app/helpers/helpers.php';
 require_once __DIR__ . '/../templates/header.php';
+require_once __DIR__ . '/../app/helpers/csrf.php';
+require_once __DIR__ . '/../app/filters/CsrfFilter.php';
+
 require '../config/database.php';
 
 use App\Controllers\UserController;

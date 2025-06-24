@@ -15,6 +15,7 @@
                 <a href="<?= base_url("posts/{$post['id']}/edit") ?>" class="button-link">Edit</a>
                 
                 <form action="<?= base_url("posts/{$post['id']}/delete") ?>" method="POST" style="display:inline;">
+                    <?= CSRF::getTokenInputField() ?>
                     <button type="submit" class="button-link" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
                 </form>
             </div>

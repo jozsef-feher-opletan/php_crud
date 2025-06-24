@@ -12,8 +12,9 @@
     <div class="row">
         <div class="cell"><?= htmlspecialchars($comment['username']) ?></div>
         <div class="cell"><?= htmlspecialchars($comment['title']) ?></div>
-        <div class="cell"><textarea id="content" name="content" rows="10" cols="40"><?= htmlspecialchars($comment['content']) ?></textarea></div>
+        <div class="cell"><textarea id="content" name="content" rows="10" cols="40" required><?= htmlspecialchars($comment['content']) ?></textarea></div>
         <div class="cell actions">
+            <?= CSRF::getTokenInputField() ?>
             <button type="submit" class="button-link">Update</button>
         </div>
     </div>

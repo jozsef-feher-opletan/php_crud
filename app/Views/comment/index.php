@@ -14,6 +14,7 @@
         <div class="cell actions">
             <a href="<?= base_url("comments/{$comment['id']}/edit") ?>" class="button-link">Edit</a>
             <form action="<?= base_url("comments/{$comment['id']}/delete") ?>" method="POST" style="display:inline;">
+                <?= CSRF::getTokenInputField() ?>
                 <button type="submit" class="button-link" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</button>
                 <input type="hidden" name="post_id" value="<?= htmlspecialchars($comment['post_id']) ?>">
                 <input type="hidden" name="user_id" value="<?= htmlspecialchars($comment['user_id']) ?>">

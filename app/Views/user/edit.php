@@ -16,6 +16,7 @@
             <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>
         </div>
         <div class="cell actions">
+            <?= CSRF::getTokenInputField() ?>
             <button type="submit" class="button-link">Update</button>
         </div>
     </div>
