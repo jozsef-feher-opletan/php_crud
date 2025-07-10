@@ -4,21 +4,24 @@ require_once __DIR__ . '/../app/helpers/helpers.php';
 require_once __DIR__ . '/../templates/header.php';
 require_once __DIR__ . '/../app/helpers/csrf.php';
 require_once __DIR__ . '/../app/filters/CsrfFilter.php';
-
 require '../config/database.php';
 
 use App\Controllers\UserController;
 use App\Controllers\PostController;
 use App\Controllers\CommentController;
 
-$scriptName = dirname($_SERVER['SCRIPT_NAME']);
-$uri = substr(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), strlen($scriptName));
+// === CLEAN URI HANDLING ===
+$scriptName = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+$requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-if ($uri === '') {
-    $uri = '/';
+// Remove base path from URI
+if (strpos($requestUri, $scriptName) === 0) {
+    $uri = substr($requestUri, strlen($scriptName));
+} else {
+    $uri = $requestUri;
 }
-$uri = base_url($uri);
-$base = base_url('');
+
+$uri = rtrim($uri, '/') ?: '/'; // normalize
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -26,8 +29,11 @@ $user_controller = new UserController($pdo);
 $post_controller = new PostController($pdo);
 $comment_controller = new CommentController($pdo);
 
-// Home route
-if ($uri === base_url('/') && $method === 'GET') {
+
+// === ROUTES ===
+
+// Home
+if ($uri === '/' && $method === 'GET') {
     echo '
     <div style="text-align: center; margin-top: 12px;">
         <div style="margin: 10px;">
@@ -42,47 +48,48 @@ if ($uri === base_url('/') && $method === 'GET') {
     </div>';
 
 // === User routes ===
-} elseif ($uri === base_url('/users') && $method === 'GET') {
+} elseif ($uri === '/users' && $method === 'GET') {
     $user_controller->index();
-} elseif ($uri === base_url('/users/create') && $method === 'GET') {
+} elseif ($uri === '/users/create' && $method === 'GET') {
     $user_controller->create();
-} elseif ($uri === base_url('/users') && $method === 'POST') {
+} elseif ($uri === '/users' && $method === 'POST') {
     $user_controller->store();
-} elseif (preg_match('#^' . $base . 'users/(\d+)/edit$#', $uri, $matches) && $method === 'GET') {
+} elseif (preg_match('#^/users/(\d+)/edit$#', $uri, $matches) && $method === 'GET') {
     $user_controller->edit($matches[1]);
-} elseif (preg_match('#^' . $base . 'users/(\d+)$#', $uri, $matches) && $method === 'POST') {
+} elseif (preg_match('#^/users/(\d+)$#', $uri, $matches) && $method === 'POST') {
     $user_controller->update($matches[1]);
-} elseif (preg_match('#^' . $base . 'users/(\d+)/delete$#', $uri, $matches) && $method === 'POST') {
+} elseif (preg_match('#^/users/(\d+)/delete$#', $uri, $matches) && $method === 'POST') {
     $user_controller->delete($matches[1]);
 
 // === Post routes ===
-} elseif ($uri === base_url('/posts') && $method === 'GET') {
+} elseif ($uri === '/posts' && $method === 'GET') {
     $post_controller->index();
-} elseif ($uri === base_url('/posts/create') && $method === 'GET') {
+} elseif ($uri === '/posts/create' && $method === 'GET') {
     $post_controller->create();
-} elseif ($uri === base_url('/posts') && $method === 'POST') {
+} elseif ($uri === '/posts' && $method === 'POST') {
     $post_controller->store();
-} elseif (preg_match('#^' . $base . 'posts/(\d+)/edit$#', $uri, $matches) && $method === 'GET') {
+} elseif (preg_match('#^/posts/(\d+)/edit$#', $uri, $matches) && $method === 'GET') {
     $post_controller->edit($matches[1]);
-} elseif (preg_match('#^' . $base . 'posts/(\d+)$#', $uri, $matches) && $method === 'POST') {
+} elseif (preg_match('#^/posts/(\d+)$#', $uri, $matches) && $method === 'POST') {
     $post_controller->update($matches[1]);
-} elseif (preg_match('#^' . $base . 'posts/(\d+)/delete$#', $uri, $matches) && $method === 'POST') {
+} elseif (preg_match('#^/posts/(\d+)/delete$#', $uri, $matches) && $method === 'POST') {
     $post_controller->delete($matches[1]);
 
 // === Comment routes ===
-} elseif ($uri === base_url('/comments') && $method === 'GET') {
+} elseif ($uri === '/comments' && $method === 'GET') {
     $comment_controller->index();
-} elseif ($uri === base_url('/comments/create') && $method === 'GET') {
+} elseif ($uri === '/comments/create' && $method === 'GET') {
     $comment_controller->create();
-} elseif ($uri === base_url('/comments') && $method === 'POST') {
+} elseif ($uri === '/comments' && $method === 'POST') {
     $comment_controller->store();
-} elseif (preg_match('#^' . $base . 'comments/(\d+)/edit$#', $uri, $matches) && $method === 'GET') {
+} elseif (preg_match('#^/comments/(\d+)/edit$#', $uri, $matches) && $method === 'GET') {
     $comment_controller->edit($matches[1]);
-} elseif (preg_match('#^' . $base . 'comments/(\d+)$#', $uri, $matches) && $method === 'POST') {
+} elseif (preg_match('#^/comments/(\d+)$#', $uri, $matches) && $method === 'POST') {
     $comment_controller->update($matches[1]);
-} elseif (preg_match('#^' . $base . 'comments/(\d+)/delete$#', $uri, $matches) && $method === 'POST') {
+} elseif (preg_match('#^/comments/(\d+)/delete$#', $uri, $matches) && $method === 'POST') {
     $comment_controller->delete($matches[1]);
 
+// === 404 ===
 } else {
     http_response_code(404);
     echo "404 Not Found";
