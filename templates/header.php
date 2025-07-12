@@ -1,10 +1,4 @@
 <!DOCTYPE html>
-<?php
-require_once '../app/helpers/csrf.php';
-require_once '../app/filters/CsrfFilter.php';
-CSRF::start();
-CsrfFilter::handle();
-?>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
