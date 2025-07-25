@@ -1,6 +1,14 @@
 <h2>User List</h2>
 <p><a href="<?= base_url('users/create') ?>" class="button-link">Add New User</a></p>
 
+<?php unset($_SESSION['old']); ?>
+<?php if (isset($_SESSION['success'])): ?>
+    <div class="alert alert-success">
+        <p><?= $_SESSION['success']; ?></p>
+    </div>
+    <?php unset($_SESSION['success']); ?>
+<?php endif; ?>
+
 <div class="table">
     <div class="row header">
         <div class="cell">Username</div>

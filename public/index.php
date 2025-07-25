@@ -1,4 +1,8 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Error logging setup
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/../logs/error.log');

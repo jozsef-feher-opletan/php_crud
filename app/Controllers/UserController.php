@@ -20,8 +20,40 @@ class UserController {
     }
 
     public function store() {
-        $this->user->create($_POST);
-        header("Location: " . base_url('/users'));
+        $data = [
+            'username' => trim($_POST['username']),
+            'email' => trim($_POST['email']),
+        ];
+
+        // Basic validation
+        $errors = [];
+        if ($data['username'] === '') $errors[] = 'Username is required.';
+        if ($data['email'] === '' || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required.';
+
+        if ($errors) {
+            $_SESSION['error'] = implode('<br>', $errors);
+            $_SESSION['old'] = $data;
+            header('Location: '. base_url('/users/create'));
+            exit;
+        }
+
+        $result = $this->user->create($data);
+
+        if ($result === 'duplicate') {
+            $_SESSION['error'] = 'A user with this email or username already exists.';
+            $_SESSION['old'] = $data;
+            header('Location: '. base_url('/users/create'));
+            exit;
+        } elseif ($result === true) {
+            $_SESSION['success'] = 'User created successfully.';
+            header('Location: '. base_url('/users'));
+            unset($_SESSION['old']);
+            exit;
+        } else {
+            $_SESSION['error'] = 'Failed to create user.';
+            header('Location: '. base_url('/users/create'));
+            exit;
+        }
     }
 
     public function edit($id) {

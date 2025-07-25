@@ -22,8 +22,20 @@ class User {
     }
 
     public function create($data) {
+        // Check for duplicate
+        $stmt = $this->pdo->prepare("SELECT id FROM users WHERE email = ? OR username = ?");
+        $stmt->execute([$data['email'], $data['username']]);
+        if ($stmt->fetch()) {
+            // Return a clear indicator for duplicate
+            return 'duplicate';
+        }
+
         $stmt = $this->pdo->prepare("INSERT INTO users (username, email) VALUES (?, ?)");
-        return $stmt->execute([$data['username'], $data['email']]);
+        if ($stmt->execute([$data['username'], $data['email']])) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function update($id, $data) {

@@ -80,3 +80,16 @@ input[type="email"] {
 textarea {
   font-size: 14px;
 }
+
+.alert {
+  text-align: center;
+  margin: 1rem auto;
+}
+
+.alert-danger {
+  color: red;
+}
+
+.alert-success {
+  color: green;
+}
